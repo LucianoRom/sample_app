@@ -39,10 +39,10 @@ class UserTest < ActiveSupport::TestCase
 
   test 'not valid emails' do
     unvalid_add = %w[romu@gmail,com romuald romromrom@r@r, romuald.sox,
-                     test@test+test.com test@test..com]
+                     test@test+test.com test@test,.com]
     unvalid_add.each do |mel|
       @user.email = mel
-      assert_not @user.valid?, '#{unvalid_add} is valid but should not'
+      assert_not @user.valid?, "#{mel} is valid but should not"
     end
   end
   test 'email uniqueness' do
