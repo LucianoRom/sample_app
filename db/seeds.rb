@@ -5,3 +5,7 @@ User.create!(name:  "Romuald Six",
              admin: true,
              activated: true,
              activated_at: Time.zone.now)
+
+Api.create!(api_name: "microposts",
+            address: "home",
+            apicture: "")

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/contact', to: 'static_pages#contact'
   get '/about', to: 'static_pages#about'
   get '/login', to: 'session#new'
+  get '/home', to: 'static_pages#home'
   post '/login', to: 'session#create'
   delete '/logout', to: 'session#destroy'
 
@@ -24,5 +25,5 @@ Rails.application.routes.draw do
   resources :password_resets,     only: [:new, :create, :edit, :update]
   resources :microposts, only: [:create, :destroy]
   resources :relationships, only: [:create, :destroy]
-  resources :api, only: [:create, :show, :destroy, :new, :index]
+  resources :apis, only: [:create, :show, :destroy, :new, :index]
 end

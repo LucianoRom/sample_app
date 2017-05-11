@@ -1,3 +1,6 @@
 <% provide(:title, "Applications") %>
 <%= render @apis %>
+<% if current_user.admin? %>
+    <%= link_to "new", new_api_path %>
+<% end %>
 

@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(version: 20170511201010) do
 
   create_table "apis", force: :cascade do |t|
     t.string   "api_name"
-    t.string   "picture"
+    t.string   "apicture"
     t.string   "address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

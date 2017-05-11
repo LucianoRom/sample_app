@@ -22,6 +22,7 @@ class ApisController < ApplicationController
     else
       flash[:info] = "Api not createdi. issue with parameters"
       render 'new'
+    end
   end
 
   def destroy
