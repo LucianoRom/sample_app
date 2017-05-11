@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170511162254) do
+ActiveRecord::Schema.define(version: 20170511201010) do
+
+  create_table "apis", force: :cascade do |t|
+    t.string   "api_name"
+    t.string   "picture"
+    t.string   "address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["api_name"], name: "index_apis_on_api_name", unique: true
+  end
 
   create_table "microposts", force: :cascade do |t|
     t.text     "content"
