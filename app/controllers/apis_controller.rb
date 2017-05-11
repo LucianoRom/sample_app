@@ -5,11 +5,6 @@ class ApisController < ApplicationController
     @apis = Api.all
   end
 
-  def show
-    @api = Api.find(params[:id])
-    redirect_to @api.address
-  end
-
   def new
     @api = Api.new
   end

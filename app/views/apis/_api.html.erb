@@ -1,7 +1,9 @@
-<%= link_to api.api_name, api.address %>
-     <% if current_user.admin?  %>
-        <%= image_tag api.apicture.url if api.apicture? %>
-       <%= link_to "delete", api, method: :delete,
-             data: { confirm: "You are sure?" } %>
-         <% end %>
+<%= link_to api.address do %>
+  <%= image_tag api.apicture.url if api.apicture? %>
+  <%= link_to api.api_name, api.address %>
+<% end %>
+<% if current_user.admin?  %>
+  <%= link_to "delete", api, method: :delete,
+    data: { confirm: "You are sure?" } %>
+<% end %>
 
