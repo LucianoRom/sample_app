@@ -20,7 +20,7 @@ class ApisController < ApplicationController
       flash[:info] = "Api created"
       redirect_to root_url
     else
-      flash[:info] = "Api not createdi. issue with parameters"
+      flash[:info] = "Api not created. issue with parameters"
       render 'new'
     end
   end
@@ -31,4 +31,9 @@ class ApisController < ApplicationController
     redirect_to root_url
   end
 
+  private
+
+  def api_params
+    params.require(:api).permit(:api_name, :address, :apicture)
+  end
 end
