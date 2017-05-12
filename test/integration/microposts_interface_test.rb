@@ -8,7 +8,7 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
 
   test "micropost interface" do
     log_in_as(@user)
-    get root_path
+    get '/home'
     assert_select 'div.pagination'
     assert_select 'input[type=file]'
     # Invalid submission
@@ -24,7 +24,7 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
                                                    picture: picture} }
     end
     assert assigns(:micropost).picture?
-    assert_redirected_to root_url
+    assert_redirected_to '/home'
     follow_redirect!
     assert_match content, response.body
     # Delete post
@@ -40,15 +40,15 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
 
   test "micropost sidebar count" do
     log_in_as(@user)
-    get root_path
+    get '/home'
     assert_match "#{@user.microposts.count} microposts", response.body
     # User with zero microposts
     other_user = users(:malory)
     log_in_as(other_user)
-    get root_path
+    get '/home'
     assert_match "0 microposts", response.body
     other_user.microposts.create!(content: "A micropost")
-    get root_path
+    get '/home'
     assert_match '1 micropost', response.body
   end
 end
