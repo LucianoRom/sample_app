@@ -41,15 +41,11 @@ class UpdatesController < ApplicationController
   # PATCH/PUT /updates/1
   # PATCH/PUT /updates/1.json
   def update
-    respond_to do |format|
       if @update.update(update_params)
-        format.html { redirect_to @update, notice: 'Update was successfully updated.' }
-        format.json { render :show, status: :ok, location: @update }
+        redirect_to updates_path
       else
-        format.html { render :edit }
-        format.json { render json: @update.errors, status: :unprocessable_entity }
+        render :edit
       end
-    end
   end
 
   # DELETE /updates/1

@@ -1,6 +1,10 @@
 <% provide(:title, "Applications") %>
-<%= render @apis %>
-<% if logged_in? && current_user.admin? %>
-    <%= link_to "new", new_api_path %>
-<% end %>
 
+<% if logged_in? && current_user.admin? %>
+    <%= link_to "new", new_api_path, class: 'btn btn-lg btn btn-prim ry' %>
+<% end %>
+<div class="container-fluid">
+  <div class="row">
+    <%= render @apis %>
+  </div>
+</div>

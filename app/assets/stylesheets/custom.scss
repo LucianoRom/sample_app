@@ -69,6 +69,10 @@ p {
   text-decoration: none;
 }
 footer {
+  position: absolute;
+  width:90%;
+  right: 5%;
+  bottom: 0;
   margin-top: 45px;
   padding-top: 5px;
   border-top: 1px solid #eaeaea;
@@ -91,13 +95,15 @@ footer {
     }
   }
 }
+
 /* miscellanous */
 
 .debug_dump {
   clear: both;
   float: left;
   width: 100%;
-  margin-top: 45px;
+  position: absolute;
+  bottom: 15%;
   @include box_sizing;
 }
 /* sidebar */
@@ -274,3 +280,4 @@ span.picture {
     border: 0;
   }
 }
+

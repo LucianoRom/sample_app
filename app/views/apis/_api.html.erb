@@ -1,9 +1,14 @@
-<%= link_to api.address do %>
-  <%= image_tag api.apicture.url if api.apicture? %>
-  <%= link_to api.api_name, api.address %>
-<% end %>
-<% if logged_in? && current_user.admin?  %>
-  <%= link_to "delete", api, method: :delete,
-    data: { confirm: "You are sure?" } %>
-<% end %>
-
+<div class="col-md-4" >
+  <%= link_to api.address do %>
+    <div style="position:absolute; z-index:3; top:50px">
+      <%= api.api_name %>
+    </div>
+    <div style="position:absolute; z-index:2; top:0px">
+    <%= image_tag api.apicture.url , :class => "img-rounded img-responsive" if api.apicture? %>
+    </div>
+  <% end %>
+  <% if logged_in? && current_user.admin?  %>
+    <br>   <%= link_to "delete", api, method: :delete,
+      data: { confirm: "You are sure?" } %>
+  <% end %>
+</div>
