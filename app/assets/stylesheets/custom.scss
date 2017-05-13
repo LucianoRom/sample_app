@@ -83,17 +83,40 @@ footer {
   small {
     float: left;
   }
- nav  {
+  nav  {
     float: right;
     list-style: none;
   }
 }
+.over-button {
+  visibility: hidden;
+  position: absolute;
+  z-index: 3;
+  margin-top:25%;
+  margin-bottom:auto;
+  width: 90%;
+  text-align: center;
+}
 
 .button-blue {
-  visibility: hidden;
-  &:hover {
-    color: navy;
+    background-color: navy;
+    color: white;
+  }
+
+.col-md-3:hover  {
+  .over-button{
     visibility: visible;
+    position: absolute;
+    z-index: 3;
+    margin-top:25%;
+    margin-bottom:auto;
+    width: 90%;
+    text-align: center;
+
+    .button-blue {
+      background-color: navy;
+      color: white;
+    }
   }
 }
 /* miscellanous */
@@ -101,6 +124,10 @@ footer {
 IMG.centered {
   margin-right: auto;
   margin-left: auto;
+}
+
+IMG.bordered{
+  border: 2px solid navy;
 }
 
 .debug_dump {
