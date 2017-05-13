@@ -69,10 +69,7 @@ p {
   text-decoration: none;
 }
 footer {
-  position: absolute;
-  width:90%;
-  right: 5%;
-  bottom: 0;
+  position: relative;
   margin-top: 45px;
   padding-top: 5px;
   border-top: 1px solid #eaeaea;
@@ -86,13 +83,9 @@ footer {
   small {
     float: left;
   }
-  ul {
+ nav  {
     float: right;
     list-style: none;
-    li {
-      float: left;
-      margin-left: 15px;
-    }
   }
 }
 
@@ -107,7 +100,7 @@ IMG.centered {
   clear: both;
   float: left;
   width: 100%;
-  position: absolute;
+  position: relative;
   bottom: 15%;
   @include box_sizing;
 }
