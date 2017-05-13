@@ -1,12 +1,14 @@
-<% if logged_in? && current_user.admin? %>
-  <center>
-  <%= link_to "new", new_update_path, style: 'color: white    ;', class: ' btn btn-lg button-blue' %>
-  </center>
-<% end %>
+<center>
+  <% if logged_in? && current_user.admin? %>
+    <%= link_to "new", new_update_path, style: 'color: white    ;', class: ' btn btn-lg button-blue' %>
 
-<h1 class= "green_row">
-  Updates planed for next versions
-</h1>
+  <% end %>
+
+  <h1 class= "green_row">
+    Updates planed for next versions
+  </h1>
+  <%= image_tag("legende.png") %>
+</center>
 <div class="table-responsive">
   <table class="table table-striped">
     <tr class="warning">
@@ -22,7 +24,7 @@
       <% @updates.each do |update| %>
         <tr>
           <td><%= update.detail %></td>
-          <td><%= update.status %></td>
+          <td><%= image_tag(update.status.to_s+".png", :alt => update.status)  %></td>
           <% if logged_in? && current_user.admin? %>
             <td><%= link_to 'Edit', edit_update_path(update) %></td>
             <td><%= link_to 'Destroy', update, method: :delete, data: { confirm: 'Are you sure?' } %></td>
