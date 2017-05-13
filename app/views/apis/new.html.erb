@@ -1,12 +1,6 @@
-<% provide(:title, 'New Api') %>
-<h1> New Api </h1>
-<%= form_for(@api) do |f| %>
-  <%= render 'shared/error_messages', object: f.object %>
-  <%= f.label :api_name %>
-  <%= f.text_field :api_name, class: 'form-control' %>
-  <%= f.label :address %>
-  <%= f.text_field :address, class: 'form-control' %>
+<% provide(:title, 'New api') %>
+<% provide(:url_fall, apis_path) %>
+<% provide(:button_text, 'Create api') %>
+<% provide(:type, 'new') %>
+<%= render "form" %>
 
-  <%= f.file_field :apicture, accept: 'image/jpeg, image/gif, image/png' %>
-  <%= f.submit "create", class: "btn btn-prim ry" %>
-<% end %>

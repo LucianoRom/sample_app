@@ -1,14 +1,21 @@
 <div class="col-md-3">
   <div class="over-button">
-    <%= link_to api.api_name, api.address, class: 'btn btn-lg btn btn-prim ry button-blue' %>
+    <% if api.active? %>
+      <%= link_to api.api_name, api.address, class: 'btn btn-lg btn btn-prim ry button-blue' %>
+    <% else %>
+      <button type="button" class="btn btn-lg btn-danger" disabled="disabled"><%= api.api_name %></button>
+    <% end %>
   </div>
-  <%= link_to api.address do %>
-    <%= image_tag api.apicture.url , :class => "img-rounded img-responsive centered bordered"  if api.apicture? %>
+  <% if api.active? %>
+    <%= link_to api.address do %>
+      <%= image_tag api.apicture.url , :class => "img-rounded img-responsive centered bordered"  if api.apicture? %>
+    <% end %>
+  <% else %>
+      <%= image_tag api.apicture.url , :class => "img-rounded img-responsive centered bordered greyed"  if api.apicture? %>
   <% end %>
-   <% if logged_in? && current_user.admin?  %>
+  <% if logged_in? && current_user.admin?  %>
     <br>   <%= link_to "delete", api, method: :delete,
       data: { confirm: "You are sure?" } %>
-    |   <%= link_to "update", api, method: :patch,
-      data: { confirm: "You are sure?" } %>
-  <% end %>
+    |   <%= link_to "update", edit_api_path(api)  %>
+<% end %>
 </div>

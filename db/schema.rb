@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170512110911) do
+ActiveRecord::Schema.define(version: 20170513140951) do
 
   create_table "apis", force: :cascade do |t|
     t.string   "api_name"
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20170512110911) do
     t.string   "address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean  "active"
     t.index ["api_name"], name: "index_apis_on_api_name", unique: true
   end
 

@@ -1,0 +1,15 @@
+<% provide(:title, 'New Api') %>
+<h1> <%= yield(:title) %>  </h1>
+<%= form_for(@api, url: yield(:url_fall)) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <%= f.label :api_name %>
+  <%= f.text_field :api_name, class: 'form-control' %>
+  <%= f.label :address %>
+  <%= f.text_field :address, class: 'form-control' %>
+  <% if yield(:type)== 'new' %>
+    <%= f.file_field :apicture, accept: 'image/jpeg, image/gif, image/png' %>
+  <% end %>
+  <%= f.label :active %>
+  <%= f.check_box :active %>
+  <%= f.submit yield(:button_text), class: "btn btn-prim ry" %>
+<% end %>
