@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170513140951) do
+ActiveRecord::Schema.define(version: 20170516110217) do
+
+  create_table "ages", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "ambiances", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "apis", force: :cascade do |t|
     t.string   "api_name"
@@ -20,6 +32,86 @@ ActiveRecord::Schema.define(version: 20170513140951) do
     t.datetime "updated_at", null: false
     t.boolean  "active"
     t.index ["api_name"], name: "index_apis_on_api_name", unique: true
+  end
+
+  create_table "complexites", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "durees", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "complexite_id"
+    t.integer  "duree_id"
+    t.integer  "user_id"
+    t.index ["complexite_id"], name: "index_games_on_complexite_id"
+    t.index ["duree_id"], name: "index_games_on_duree_id"
+    t.index ["name", "user_id"], name: "index_games_on_name_and_user_id"
+    t.index ["name"], name: "index_games_on_name"
+    t.index ["user_id"], name: "index_games_on_user_id"
+  end
+
+  create_table "jeu_ages", force: :cascade do |t|
+    t.integer  "game_id"
+    t.integer  "age_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["age_id"], name: "index_jeu_ages_on_age_id"
+    t.index ["game_id"], name: "index_jeu_ages_on_game_id"
+  end
+
+  create_table "jeu_ambiances", force: :cascade do |t|
+    t.integer  "game_id"
+    t.integer  "ambiance_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["ambiance_id"], name: "index_jeu_ambiances_on_ambiance_id"
+    t.index ["game_id"], name: "index_jeu_ambiances_on_game_id"
+  end
+
+  create_table "jeu_nb_joueurs", force: :cascade do |t|
+    t.integer  "game_id"
+    t.integer  "nbjoueur_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["game_id"], name: "index_jeu_nb_joueurs_on_game_id"
+    t.index ["nbjoueur_id"], name: "index_jeu_nb_joueurs_on_nbjoueur_id"
+  end
+
+  create_table "jeu_styles", force: :cascade do |t|
+    t.integer  "game_id"
+    t.integer  "style_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_jeu_styles_on_game_id"
+    t.index ["style_id"], name: "index_jeu_styles_on_style_id"
+  end
+
+  create_table "jeu_thematiques", force: :cascade do |t|
+    t.integer  "game_id"
+    t.integer  "thematique_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["game_id"], name: "index_jeu_thematiques_on_game_id"
+    t.index ["thematique_id"], name: "index_jeu_thematiques_on_thematique_id"
+  end
+
+  create_table "jeu_versions", force: :cascade do |t|
+    t.integer  "game_id"
+    t.integer  "version_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_jeu_versions_on_game_id"
+    t.index ["version_id"], name: "index_jeu_versions_on_version_id"
   end
 
   create_table "microposts", force: :cascade do |t|
@@ -32,6 +124,12 @@ ActiveRecord::Schema.define(version: 20170513140951) do
     t.index ["user_id"], name: "index_microposts_on_user_id"
   end
 
+  create_table "nb_joueurs", force: :cascade do |t|
+    t.integer  "number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "relationships", force: :cascade do |t|
     t.integer  "follower_id"
     t.integer  "followed_id"
@@ -40,6 +138,18 @@ ActiveRecord::Schema.define(version: 20170513140951) do
     t.index ["followed_id"], name: "index_relationships_on_followed_id"
     t.index ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
     t.index ["follower_id"], name: "index_relationships_on_follower_id"
+  end
+
+  create_table "styles", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "thematiques", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "updates", force: :cascade do |t|
@@ -63,6 +173,12 @@ ActiveRecord::Schema.define(version: 20170513140951) do
     t.string   "reset_digest"
     t.datetime "reset_sent_at"
     t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  create_table "versions", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

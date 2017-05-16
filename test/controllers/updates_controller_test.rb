@@ -20,7 +20,7 @@ class UpdatesControllerTest < ActionDispatch::IntegrationTest
       post updates_url, params: { update: { detail: @update.detail, status: @update.status } }
     end
 
-    assert_redirected_to update_url(Update.last)
+    assert_redirected_to updates_url
   end
 
   test "should show update" do
@@ -35,7 +35,7 @@ class UpdatesControllerTest < ActionDispatch::IntegrationTest
 
   test "should update update" do
     patch update_url(@update), params: { update: { detail: @update.detail, status: @update.status } }
-    assert_redirected_to update_url(@update)
+    assert_redirected_to updates_url
   end
 
   test "should destroy update" do
