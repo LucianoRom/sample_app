@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170516110217) do
+ActiveRecord::Schema.define(version: 20170516133519) do
 
   create_table "ages", force: :cascade do |t|
     t.string   "name"
@@ -78,13 +78,13 @@ ActiveRecord::Schema.define(version: 20170516110217) do
     t.index ["game_id"], name: "index_jeu_ambiances_on_game_id"
   end
 
-  create_table "jeu_nb_joueurs", force: :cascade do |t|
+  create_table "jeu_nbjoueurs", force: :cascade do |t|
     t.integer  "game_id"
     t.integer  "nbjoueur_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.index ["game_id"], name: "index_jeu_nb_joueurs_on_game_id"
-    t.index ["nbjoueur_id"], name: "index_jeu_nb_joueurs_on_nbjoueur_id"
+    t.index ["game_id"], name: "index_jeu_nbjoueurs_on_game_id"
+    t.index ["nbjoueur_id"], name: "index_jeu_nbjoueurs_on_nbjoueur_id"
   end
 
   create_table "jeu_styles", force: :cascade do |t|
@@ -124,7 +124,7 @@ ActiveRecord::Schema.define(version: 20170516110217) do
     t.index ["user_id"], name: "index_microposts_on_user_id"
   end
 
-  create_table "nb_joueurs", force: :cascade do |t|
+  create_table "nbjoueurs", force: :cascade do |t|
     t.integer  "number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

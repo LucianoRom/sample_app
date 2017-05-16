@@ -1,7 +1,7 @@
 class GamesController < ApplicationController
   before_action :set_game, only: [:show, :edit, :update, :destroy]
   before_action :logged_in_user, only: [:edit, :update, :new, :create, :destroy]
-  before_action :correct_user, only: [:edit, :update, :destroy]
+  before_action :correct_user_or_admin, only: [:edit, :update, :destroy]
 
 
   # GET /games
@@ -72,11 +72,12 @@ class GamesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def game_params
-      params.require(:game).permit(:name, :duree, :complexite, :user_id, :version, :ambiance, :age , :thematique, :nb_joueur, :style)
+      params.require(:game).permit(:name, :duree_id, :complexite_id, :user_id,:version_ids => [], :ambiance_ids => [], :age_ids=> [], :thematique_ids => [], :nbjoueur_ids => [], :style_ids => [])
     end
-   def correct_user
-     @user = User.find(params[:user_id])
-     redirect_to('/games') unless current_user?(@user)||admin_user?
+   def correct_user_or_admin
+     @game = Game.find(params[:id])
+     @user = @game.user
+     redirect_to('/games') unless current_user?(@user)||current_user.admin?
    end
 
 end

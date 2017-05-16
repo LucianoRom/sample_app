@@ -15,10 +15,27 @@
     <%= f.text_field :name %>
 
     <% if current_user.admin? %>
+    <%= f.label :user %>
     <%= f.collection_select :user_id, User.all, :id, :name  %>
     <% end %>
+    <label for="game_nbjoueur_ids">Nb Joueurs (selectionner toutes les options possibles)</label>
+    <%= f.collection_select :nbjoueur_ids, Nbjoueur.all, :id, :number,{:selected => @game.nbjoueur_ids },{:multiple => true}  %>
+    <%= f.label :duree %>
+    <%= f.collection_select :duree_id, Duree.all, :id, :name  %>
+    <%= f.label :complexite %>
+    <%= f.collection_select :complexite_id, Complexite.all, :id, :name  %>
+    <%= f.label :age %>
+    <%= f.collection_select :age_ids, Age.all, :id, :name,{:selected => @game.age_ids},{:multiple => true}  %>
+    <%= f.label :version %>
 
-   <%= render 'multifilters' %>
+    <%= f.collection_select :version_ids, Version.all, :id, :name,{:selected => @game.version_ids},{:multiple => true}  %>
+    <%= f.label :ambiance %>
+    <%= f.collection_select :ambiance_ids, Ambiance.all, :id, :name,{:selected => @game.ambiance_ids},{:multiple => true}  %>
+    <%= f.label :style %>
+
+    <%= f.collection_select :style_ids, Style.all, :id, :name,{:selected => @game.style_ids},{:multiple => true}  %>
+    <%= f.label :thematique %>
+    <%= f.collection_select :thematique_ids, Thematique.all, :id, :name,{:selected => @game.thematique_ids},{:multiple => true}  %>
 
   <div class="actions">
     <%= f.submit %>

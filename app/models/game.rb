@@ -8,8 +8,8 @@ class Game < ApplicationRecord
   has_many :ages, through: :jeu_ages
   has_many :jeu_thematiques, dependent: :destroy
   has_many :thematiques, through: :jeu_thematiques
-  has_many :jeu_nb_joueurs, dependent: :destroy
-  has_many :nb_joueurs, through: :jeu_nb_joueurs
+  has_many :jeu_nbjoueurs, dependent: :destroy
+  has_many :nbjoueurs, through: :jeu_nbjoueurs
   has_many :jeu_ambiances, dependent: :destroy
   has_many :ambiances, through: :jeu_ambiances
   has_many :jeu_styles, dependent: :destroy
