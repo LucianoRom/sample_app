@@ -1,0 +1,2 @@
+class Adversaire < ApplicationRecord
+end

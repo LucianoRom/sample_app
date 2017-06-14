@@ -1,0 +1,2 @@
+class Arbitre < ApplicationRecord
+end
