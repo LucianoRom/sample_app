@@ -16,4 +16,5 @@ class Game < ApplicationRecord
   has_many :styles, through: :jeu_styles
   validates :name, presence: true
   validates :user, presence: true
+
 end
