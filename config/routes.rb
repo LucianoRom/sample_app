@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
   resources :matches
+  resources :games
   resources :updates
+
   get 'password_resets/new'
-
   get 'password_resets/edit'
-
   get '/signup', to: 'users#new'
   post '/signup', to: 'users#create'
   root 'apis#index'
@@ -22,7 +22,8 @@ Rails.application.routes.draw do
     end
   end
 
-
+  get 'graph/index'
+  get 'graph/data', :defaults => { :format => 'json' }
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
   resources :microposts, only: [:create, :destroy]

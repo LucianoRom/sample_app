@@ -29,8 +29,8 @@ class UpdatesController < ApplicationController
 
     respond_to do |format|
       if @update.save
-        format.html { redirect_to @update, notice: 'Update was successfully created.' }
-        format.json { render :show, status: :created, location: @update }
+        format.html { redirect_to updates_url, notice: 'Update was successfully created.' }
+        format.json { render :index, status: :created, location: @update }
       else
         format.html { render :new }
         format.json { render json: @update.errors, status: :unprocessable_entity }
