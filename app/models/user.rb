@@ -16,6 +16,7 @@ class User < ApplicationRecord
   has_many :arbitres, dependent: :destroy
   has_many :mcs, dependent: :destroy
   has_many :musiques, dependent: :destroy
+  has_many :matches, class_name: "Match", foreign_key: "orga"
   before_save :downcase_email
   before_create :create_activation_digest
   validates :name,  presence: true, length: { maximum: 50 }

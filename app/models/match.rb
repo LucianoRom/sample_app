@@ -4,5 +4,7 @@ class Match < ApplicationRecord
   has_many :arbitres, dependent: :destroy
   has_many :mcs, dependent: :destroy
   has_many :musiques, dependent: :destroy
-  validates :date, presence: true
+  belongs_to :organisateur, class_name: 'User', foreign_key: 'orga'
+validates :date, presence: true
+validates :orga, presence: true
 end

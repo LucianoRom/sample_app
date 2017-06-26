@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   resources :matches
   resources :games
   resources :updates
-
+  get '/select', to: 'matches#select'
+  get '/deselect', to: 'matches#deselect'
   get 'password_resets/new'
   get 'password_resets/edit'
   get '/signup', to: 'users#new'
@@ -13,6 +14,7 @@ Rails.application.routes.draw do
   get '/about', to: 'static_pages#about'
   get '/login', to: 'session#new'
   get '/home', to: 'static_pages#home'
+  post '/subscribe', to: 'matches#subscribe'
   post '/login', to: 'session#create'
   delete '/logout', to: 'session#destroy'
 

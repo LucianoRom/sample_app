@@ -26,11 +26,7 @@
     <%= f.text_field :ville %>
   </div>
 
-  <div class="field">
-    <%= f.label :orga %>
-    <%= f.number_field :orga %>
-  </div>
-
+   <%= f.hidden_field :orga, value: current_user.id %>
   <div class="actions">
     <%= f.submit %>
   </div>

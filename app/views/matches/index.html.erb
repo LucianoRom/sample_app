@@ -1,33 +1,83 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Matches</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Salle</th>
-      <th>Ville</th>
-      <th>Orga</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @matches.each do |match| %>
+<%= form_tag "/subscribe", method: "post" do %>
+  <table>
+    <thead>
       <tr>
-        <td><%= match.date %></td>
-        <td><%= match.salle %></td>
-        <td><%= match.ville %></td>
-        <td><%= match.orga %></td>
-        <td><%= link_to 'Show', match %></td>
-        <td><%= link_to 'Edit', edit_match_path(match) %></td>
-        <td><%= link_to 'Destroy', match, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Date</th>
+        <th>Salle</th>
+        <th>Ville</th>
+        <th>Orga</th>
+        <th>Participant</th>
+        <th></th>
+        <th>Jury</th>
+        <th></th>
+        <th>Musicien</th>
+        <th></th>
+        <th>Arbitre</th>
+        <th></th>
+        <th>Maître de cérémonie</th>
+        <th></th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
+    <tbody>
 
-<%= link_to 'New Match', new_match_path %>
+      <% @matches.each do |match| %>
+        <% if logged_in? %>
+          <% @adv = @jur = @mus = @arb = @mc = '' %>
+          <% @adv="checked" if Adversaire.find_by user_id: current_user.id, match_id: match.id %>
+          <% @jur="checked" if Jury.find_by user_id: current_user.id, match_id: match.id %>
+          <% @mus="checked" if Musique.find_by user_id: current_user.id, match_id: match.id %>
+          <% @arb="checked" if Arbitre.find_by user_id: current_user.id, match_id: match.id %>
+          <% @mc="checked" if Mc.find_by user_id: current_user.id, match_id: match.id %>
+        <% end %>
+        <tr>
+          <td><%= match.date %></td>
+          <td><%= match.salle %></td>
+          <td><%= match.ville %></td>
+          <td><%= match.organisateur.name %></td>
+          <td>
+            <%= selected_list("Adversaire", match.id) %>
+          </td>
+          <td>
+            <% if logged_in? %>
+              <input type="checkbox" name="adversaire_<%= match.id %>" <%= @adv%>/>
+            <% end %></td>
+          <td>
+            <%= selected_list("Jury", match.id) %>
+          </td>
+          <td><% if logged_in? %>
+            <input type="checkbox" name="jury_<%= match.id %>" <%= @jur %> />
+          <% end %></td>
+          <td>
+            <%= selected_list("Musique", match.id) %>
+          </td>
+          <td><% if logged_in? %>
+            <input type="checkbox" name="musique_<%= match.id %>" <%= @mus %>/>
+          <% end %></td>
+          <td>
+            <%= selected_list("Arbitre", match.id) %>
+          </td>
+          <td><% if logged_in? %>
+            <input type="checkbox" name="arbitre_<%= match.id %>" <%= @arb %>/>
+          <% end %></td>
+          <td>
+            <%= selected_list("Mc", match.id) %>
+          </td>
+          <td><% if logged_in? %>
+            <input type="checkbox" name="mc_<%= match.id %>" <%= @mc %>/> <% end %></td>
+        <% if logged_in? && (current_user.admin? || current_user == match.user) %>
+          <td><%= link_to 'Modifier', edit_match_path(match) %></td>
+          <td><%= link_to 'Supprimer', match, method: :delete, data: { confirm: 'Are you sure?' } %></td> <% end %>
+    </tr>
+  <% end %>
+    </tbody>
+  </table>
+
+  <br>
+  <input type="submit" value="Enregistrer les inscriptions" />
+  <%= link_to 'Proposer une date', new_match_path %>
+<% end %>

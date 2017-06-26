@@ -1,5 +1,7 @@
 class MatchesController < ApplicationController
   before_action :set_match, only: [:show, :edit, :update, :destroy]
+  before_action :logged_in_user, only: [:edit, :update, :new, :create, :destroy, :subscribe]
+  before_action :correct_user_or_admin, only: [:edit, :update, :destroy]
 
   # GET /matches
   # GET /matches.json
@@ -28,8 +30,8 @@ class MatchesController < ApplicationController
 
     respond_to do |format|
       if @match.save
-        format.html { redirect_to @match, notice: 'Match was successfully created.' }
-        format.json { render :show, status: :created, location: @match }
+        format.html { redirect_to matches_url, notice: 'Match was successfully created.' }
+        format.json { render :index, status: :created, location: @match }
       else
         format.html { render :new }
         format.json { render json: @match.errors, status: :unprocessable_entity }
@@ -42,8 +44,8 @@ class MatchesController < ApplicationController
   def update
     respond_to do |format|
       if @match.update(match_params)
-        format.html { redirect_to @match, notice: 'Match was successfully updated.' }
-        format.json { render :show, status: :ok, location: @match }
+        format.html { redirect_to matches_url, notice: 'Match was successfully updated.' }
+        format.json { render :index, status: :ok, location: @match }
       else
         format.html { render :edit }
         format.json { render json: @match.errors, status: :unprocessable_entity }
@@ -61,14 +63,73 @@ class MatchesController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_match
-      @match = Match.find(params[:id])
-    end
+  def select
+      # on récupère les paramètres de classe, user et match et on règle "selected"
+      @objet = params["class"].constantize.find_by(user_id: params["user_id"], match_id: params["match_id"])
+      @objet.selected = 1
+      @objet.save
+        redirect_to matches_url
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def match_params
-      params.require(:match).permit(:date, :salle, :ville, :orga)
+  def deselect
+      # on récupère les paramètres de classe, user et match et on règle "selected"
+      @objet = params["class"].constantize.find_by(user_id: params["user_id"], match_id: params["match_id"])
+      @objet.selected = 0
+      @objet.save
+        redirect_to matches_url
+  end
+
+  def subscribe
+    #pour simplifier la gestion des paramètre : on supprime tout les liens du user et on les remet
+    ##
+    Adversaire.where(:user_id => current_user.id).destroy_all
+    Musique.where(:user_id => current_user.id).destroy_all
+    Arbitre.where(:user_id => current_user.id).destroy_all
+    Mc.where(:user_id => current_user.id).destroy_all
+    Jury.where(:user_id => current_user.id).destroy_all
+
+    #
+    #
+    #décomposer le résultat du formulaire ici. On récupère la première partie du nom de la checkbox pour obtenir le type, puis on cherche le croisement entre le user id et l'objet id. On l'ajoute s'il existe pas et qu'on a 1 dans la checkbox, et on l'enlève sinon
+    #pour checkbox = adversaire_XX = YY
+    #@objet = Adversaire.find_by user_id:@current_user, match_id: XX
+
+    #if YY = "on"
+    #   if objet?
+    #   else
+    #      Adversaire.new(match_id: XX, user_id: @current_user, selected: 0)
+    #   end
+    #else
+    #   @objet.destroy if @objet?
+    #   end
+    params.each do |param, value|
+      if value == "on"
+        # param => typeobjet_numero
+        @parampl = param.split('_')
+        @type = @parampl[0]
+        @number = @parampl[1]
+        #constantize transforme un string en la classe correspondante (si elle existe), mais il faut d'abord ajouter une majuscule à la variable
+        @objet = @type.capitalize.constantize.find_by user_id: current_user.id, match_id: @number
+        @newrecord = @type.capitalize.constantize.new(match_id: @number, user_id: current_user.id, selected: 0)
+        @newrecord.save
+      end
     end
+    redirect_to matches_url, notice: 'Inscriptions enregistrées'
+  end
+
+  private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_match
+    @match = Match.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def match_params
+    params.require(:match).permit(:date, :salle, :ville, :orga)
+  end
+  def correct_user_or_admin
+    @match = Match.find(params[:id])
+    @user = @match.orga
+    redirect_to('/matchs') unless current_user?(@user)||current_user.admin?
+  end
 end
