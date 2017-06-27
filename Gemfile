@@ -8,6 +8,7 @@ git_source(:github) do |repo_name|
 end
 
 gem 'bcrypt',                  '3.1.11'
+gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-sass',          '3.3.6'
 gem 'bootstrap-will_paginate', '0.0.10'
 gem 'carrierwave',             '0.11.2'

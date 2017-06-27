@@ -8,12 +8,13 @@
       <table class="table table-responsive table-striped calendar">
         <thead>
           <tr>
-            <th colspan=4 class="match">MATCH</th>
-            <th colspan=6 class="part">PARTICIPANTS</th>
+            <th colspan=5 class="match">MATCH</th>
+            <th colspan=7 class="part">PARTICIPANTS</th>
             <% if logged_in? %>
               <th colspan=2>EDITER DATES</th>
             <% end %>
             <tr>
+              <th class="match">Mois</th>
               <th class="match">Date</th>
               <th class="match">Salle</th>
               <th class="match">Addresse</th>
@@ -24,6 +25,7 @@
               <th class="part">Musicien</th>
               <th class="part">Arbitre</th>
               <th class="part">Maître de cérémonie</th>
+              <th class="part">Envoyé Improvisades</th>
               <% if logged_in? %>
                 <th colspan="2"></th>
               <% end %>
@@ -34,15 +36,17 @@
 
           <% @matches.each do |match| %>
             <% if logged_in? %>
-              <% @adv = @jur = @mus = @arb = @mc = '' %>
+              <% @adv = @jur = @mus = @arb = @mc = @rep =  '' %>
               <% @adv="checked" if Adversaire.find_by user_id: current_user.id, match_id: match.id %>
               <% @jur="checked" if Jury.find_by user_id: current_user.id, match_id: match.id %>
               <% @mus="checked" if Musique.find_by user_id: current_user.id, match_id: match.id %>
               <% @arb="checked" if Arbitre.find_by user_id: current_user.id, match_id: match.id %>
               <% @mc="checked" if Mc.find_by user_id: current_user.id, match_id: match.id %>
+              <% @rep="checked" if Representant.find_by user_id: current_user.id, match_id: match.id %>
             <% end %>
             <tr>
-              <td><%= match.date %></td>
+              <td><b><%= mois(match.date) %></b></td>
+              <td><%= jour(match.date) %></td>
               <td><%= match.salle %></td>
               <td><%= match.ville %></td>
               <td><%= match.metro %></td>
@@ -105,6 +109,18 @@
                     <input type="checkbox" name="mc_<%= match.id %>" <%= @mc%>/>
                   <% else %>
                     <%= selected_final("Mc",match.id)%>
+                  <% end %>
+                </td>
+              <% end %>
+              <% if logged_in? && impro_admin?(current_user) %>
+                <%= selected_list("Representant", match.id) %>
+              <% end %>
+              <% if (logged_in? && !impro_admin?(current_user)) || !logged_in?  %>
+                <td>
+                  <% if logged_in? && !is_selected?("Representant",match.id)  && current_user.type_id == 4 %>
+                    <input type="checkbox" name="representant_<%= match.id %>" <%= @rep%>/>
+                  <% else %>
+                    <%= selected_final("Representant",match.id)%>
                   <% end %>
                 </td>
               <% end %>

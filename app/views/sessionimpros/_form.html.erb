@@ -1,0 +1,22 @@
+<%= form_for(@user, url: yield(:url_fall) ) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+
+  <%= f.label :name, "Identifiant / Nom d'équipe" %>
+  <%= f.text_field :name, class: 'form-control' %>
+
+  <%= f.label :email %>
+  <%= f.email_field :email, class: 'form-control' %>
+
+  <%= f.label :password, "Mot de passe" %>
+  <%= f.password_field :password, class: 'form-control' %>
+
+  <%= f.label :password_confirmation, "Confirmation" %>
+  <%= f.password_field :password_confirmation, class: 'form-control' %>
+
+  <%= f.label :type_id, "Profil" %>
+  <%= f.select :type_id,
+              options_for_select([["Equipe",3],["Staff",4],["Autre",1]],
+                                 logged_in? ?  current_user.type_id : 3) %>
+
+  <%= f.submit yield(:button_text), class: "btn button-red" %>
+<% end %>

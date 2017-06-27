@@ -11,7 +11,7 @@ class User < ApplicationRecord
   has_many :followers, through: :passive_relationships, source: :follower
   has_many :games, dependent: :destroy
   attr_accessor :remember_token, :activation_token, :reset_token
-
+  has_many :representants, dependent: :destroy
   has_many :adversaires, dependent: :destroy
   has_many :juries, dependent: :destroy
   has_many :arbitres, dependent: :destroy

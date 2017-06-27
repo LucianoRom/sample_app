@@ -22,9 +22,18 @@ class UsersController < ApplicationController
     if @user.save
       @user.send_activation_email
       flash[:info] = "Please check your email to activate your account."
-      redirect_to "/home"
+      if URI(request.referer).path == '/signup_impro'
+        redirect_to matches_path
+      else
+        redirect_to "/home"
+      end
     else
-      render 'new'
+      flash[:info] = "Erreur dans le formulaire"
+      if URI(request.referer).path == '/signup_impro'
+        redirect_to signup_impro_path
+      else
+        render 'new'
+      end
     end
   end
 
@@ -35,9 +44,17 @@ class UsersController < ApplicationController
     if @user.update_attributes(user_params)
       # success
       flash[:success] = "Profile updated"
-      redirect_to @user
+      if URI(request.referer).path == '/profil_impro'
+        redirect_to matches_path
+      else
+        redirect_to @user
+      end
     else
-      render 'edit'
+      if URI(request.referer).path == '/profil_impro'
+        redirect_to profil_impro_path
+      else
+        render 'edit'
+      end
     end
   end
 

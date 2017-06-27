@@ -1,2 +1,8 @@
-<h1>Sessionimpros#newuser</h1>
-<p>Find me in app/views/sessionimpros/newuser.html.erb</p>
+<% provide(:url_fall, signup_path) %>
+<% provide(:button_text, 'Creer mon utilisateur') %>
+<br><br><h1>Creation d'utilisateur</h1>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= render 'form' %>
+  </div>
+</div>

@@ -1,6 +1,11 @@
-<h1>Editing Match</h1>
-
+<% provide(:button_text, 'Modifier match')%>
+<% provide(:formate, @match.date.strftime("%d/%m/%Y"))%>
+<br><br>
+<h1>Modifier un match</h1>
+<center>
+<b>Attention : pensez à prévenir les Improvisades en cas de changement de date si une équipe a déja été prévue pour ce match</b>
+</center>
+<br>
 <%= render 'form', match: @match %>
 
-<%= link_to 'Show', @match %> |
 <%= link_to 'Back', matches_path %>

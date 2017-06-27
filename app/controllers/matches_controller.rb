@@ -6,7 +6,7 @@ class MatchesController < ApplicationController
   # GET /matches
   # GET /matches.json
   def index
-    @matches = Match.all
+    @matches = Match.all.sort_by &:date
   end
 
   # GET /matches/1
@@ -87,7 +87,7 @@ class MatchesController < ApplicationController
     Arbitre.where(:user_id => current_user.id, :selected => 0).destroy_all
     Mc.where(:user_id => current_user.id, :selected => 0).destroy_all
     Jury.where(:user_id => current_user.id, :selected => 0).destroy_all
-
+    Representant.where(:user_id => current_user.id, :selected => 0).destroy_all
     #
     #
     #décomposer le résultat du formulaire ici. On récupère la première partie du nom de la checkbox pour obtenir le type, puis on cherche le croisement entre le user id et l'objet id. On l'ajoute s'il existe pas et qu'on a 1 dans la checkbox, et on l'enlève sinon
@@ -125,7 +125,7 @@ class MatchesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def match_params
-    params.require(:match).permit(:date, :salle, :ville, :orga)
+    params.require(:match).permit(:date, :salle, :ville, :orga, :metro)
   end
   def correct_user_or_admin_impro
     @match = Match.find(params[:id])

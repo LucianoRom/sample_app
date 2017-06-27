@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170627131255) do
+ActiveRecord::Schema.define(version: 20170627183333) do
 
   create_table "adversaires", force: :cascade do |t|
     t.integer  "match_id"
@@ -188,6 +188,16 @@ ActiveRecord::Schema.define(version: 20170627131255) do
     t.index ["followed_id"], name: "index_relationships_on_followed_id"
     t.index ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
     t.index ["follower_id"], name: "index_relationships_on_follower_id"
+  end
+
+  create_table "representants", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "match_id"
+    t.integer  "selected"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["match_id"], name: "index_representants_on_match_id"
+    t.index ["user_id"], name: "index_representants_on_user_id"
   end
 
   create_table "styles", force: :cascade do |t|

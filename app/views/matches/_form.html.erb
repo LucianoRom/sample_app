@@ -1,4 +1,5 @@
 <%= form_for(match) do |f| %>
+ <%= render 'shared/error_messages', object: f.object %>
   <% if match.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(match.errors.count, "error") %> prohibited this match from being saved:</h2>
@@ -11,23 +12,30 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :date %>
-    <%= f.datetime_select :date %>
-  </div>
 
-  <div class="field">
+
     <%= f.label :salle %>
     <%= f.text_field :salle %>
-  </div>
 
-  <div class="field">
-    <%= f.label :ville %>
+    <%= f.label :ville, "Addresse" %>
     <%= f.text_field :ville %>
-  </div>
 
-   <%= f.hidden_field :orga, value: current_user.id %>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <%= f.label :metro, "Metro/RER" %>
+    <%= f.text_field :metro %>
+
+    <%= f.hidden_field :orga, value: current_user.id %>
+    <%= f.label :date %>
+    <%= f.text_field :date, :value => yield(:formate), 'data-behaviour' => 'datepicker' %>
+
+    <%= f.submit yield(:button_text), class: "btn button-red" %>
+
 <% end %>
+
+    <script type="text/javascript">
+$('[data-behaviour~=datepicker]').datepicker({
+    format: 'dd/mm/yyyy',
+    language: 'fr',
+    todayHighlight: true,
+    todayBtn: "linked"
+} );
+    </script>
