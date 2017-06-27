@@ -12,6 +12,7 @@
 
   <%= f.label :password_confirmation, "Confirmation" %>
   <%= f.password_field :password_confirmation, class: 'form-control' %>
+ <%= f.hidden_field :type_id, value: 1 %>
 
   <%= f.submit yield(:button_text), class: "btn btn-primary" %>
 <% end %>

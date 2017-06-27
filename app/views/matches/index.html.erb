@@ -47,12 +47,12 @@
               <td><%= match.ville %></td>
               <td><%= match.metro %></td>
               <td><%= match.organisateur.name %></td>
-              <% if logged_in? && current_user.admin? %>
+              <% if logged_in? &&  impro_admin?(current_user)%>
                 <%= selected_list("Adversaire", match.id) %>
               <% end %>
-              <% if (logged_in? && !current_user.admin?) || !logged_in?  %>
+              <% if (logged_in? && !impro_admin?(current_user)) || !logged_in?  %>
                 <td>
-                  <% if logged_in? && !is_selected?("Adversaire",match.id) %>
+                  <% if logged_in? && !is_selected?("Adversaire",match.id) && current_user.type_id == 3 %>
                     <input type="checkbox" name="adversaire_<%= match.id %>" <%= @adv%>/>
                   <% else %>
                     <%= selected_final("Adversaire",match.id)%>
@@ -60,10 +60,10 @@
                 </td>
 
               <% end %>
-              <% if logged_in? && current_user.admin? %>
+              <% if logged_in? && impro_admin?(current_user) %>
                 <%= selected_list("Jury", match.id) %>
               <% end %>
-              <% if (logged_in? && !current_user.admin?) || !logged_in?  %>
+              <% if (logged_in? && !impro_admin?(current_user)) || !logged_in?  %>
                 <td>
                   <% if logged_in? && !is_selected?("Jury",match.id) %>
                     <input type="checkbox" name="jury_<%= match.id %>" <%= @jur%>/>
@@ -72,52 +72,52 @@
                   <% end %>
                 </td>
               <% end %>
-              <% if logged_in? && current_user.admin? %>
+              <% if logged_in? && impro_admin?(current_user) %>
                 <%= selected_list("Musique", match.id) %>
               <% end %>
-              <% if (logged_in? && !current_user.admin?) || !logged_in?  %>
+              <% if (logged_in? && !impro_admin?(current_user)) || !logged_in?  %>
                 <td>
-                  <% if logged_in? && !is_selected?("Musique",match.id) %>
+                  <% if logged_in? && !is_selected?("Musique",match.id) && current_user.type_id == 4  %>
                     <input type="checkbox" name="musique_<%= match.id %>" <%= @mus%>/>
                   <% else %>
                     <%= selected_final("Musique",match.id)%>
                   <% end %>
                 </td>
               <% end %>
-              <% if logged_in? && current_user.admin? %>
+              <% if logged_in? && impro_admin?(current_user) %>
                 <%= selected_list("Arbitre", match.id) %>
               <% end %>
-              <% if (logged_in? && !current_user.admin?) || !logged_in?  %>
+              <% if (logged_in? && !impro_admin?(current_user)) || !logged_in?  %>
                 <td>
-                  <% if logged_in? && !is_selected?("Arbitre",match.id) %>
+                  <% if logged_in? && !is_selected?("Arbitre",match.id)  && current_user.type_id == 4 %>
                     <input type="checkbox" name="arbitre_<%= match.id %>" <%= @arb%>/>
                   <% else %>
                     <%= selected_final("Arbitre",match.id)%>
                   <% end %>
                 </td>
               <% end %>
-              <% if logged_in? && current_user.admin? %>
+              <% if logged_in? && impro_admin?(current_user) %>
                 <%= selected_list("Mc", match.id) %>
               <% end %>
-              <% if (logged_in? && !current_user.admin?) || !logged_in?  %>
+              <% if (logged_in? && !impro_admin?(current_user)) || !logged_in?  %>
                 <td>
-                  <% if logged_in? && !is_selected?("Mc",match.id) %>
+                  <% if logged_in? && !is_selected?("Mc",match.id)  && current_user.type_id == 4 %>
                     <input type="checkbox" name="mc_<%= match.id %>" <%= @mc%>/>
                   <% else %>
                     <%= selected_final("Mc",match.id)%>
                   <% end %>
                 </td>
               <% end %>
-              <% if logged_in? && (current_user.admin? || current_user == match.organisateur) %>
+              <% if logged_in? && (impro_admin?(current_user) || current_user == match.organisateur) %>
                 <td><%= link_to 'Modifier', edit_match_path(match) %></td><% end %>
-            <% if logged_in? && current_user.admin? %>
+            <% if logged_in? && impro_admin?(current_user) %>
               <td><%= link_to 'Supprimer', match, method: :delete, data: { confirm: 'Are you sure?' } %></td> <% end %>
         </tr>
       <% end %>
         </tbody>
       </table>
   </div>
-  <% if !(logged_in? && !current_user.admin)
+  <% if !(logged_in? && !impro_admin?(current_user) )
        @visib_inscr = 'cache'
   end
 %>

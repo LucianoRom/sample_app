@@ -1,7 +1,7 @@
 class MatchesController < ApplicationController
   before_action :set_match, only: [:show, :edit, :update, :destroy]
   before_action :logged_in_user, only: [:edit, :update, :new, :create, :destroy, :subscribe]
-  before_action :correct_user_or_admin, only: [:edit, :update, :destroy]
+  before_action :correct_user_or_admin_impro, only: [:edit, :update, :destroy]
 
   # GET /matches
   # GET /matches.json
@@ -127,9 +127,9 @@ class MatchesController < ApplicationController
   def match_params
     params.require(:match).permit(:date, :salle, :ville, :orga)
   end
-  def correct_user_or_admin
+  def correct_user_or_admin_impro
     @match = Match.find(params[:id])
-    @user = @match.orga
-    redirect_to('/matchs') unless current_user?(@user)||current_user.admin?
+    @user = @match.organisateur
+    redirect_to('/matchs') unless current_user?(@user)||impro_admin?(current_user)
   end
 end

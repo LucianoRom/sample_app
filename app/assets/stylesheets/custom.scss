@@ -331,6 +331,7 @@ span.picture {
 
 /*calendar*/
 
+
 .button-red {
   background-color: FireBrick;
   color: white;
@@ -343,6 +344,17 @@ span.picture {
   }
 }
 
+.nav-red {
+  background-color: FireBrick;
+  color: white;
+  width: 80%;
+
+  &:hover {
+    background-color: FireBrick;
+    text-decoration: none;
+    color: white;
+  }
+}
 a.button-red {
   &:link{
     color: white;

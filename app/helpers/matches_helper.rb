@@ -31,7 +31,7 @@ end
           @html += ' </b>'
         end
         @html += '<br/>'
-        if logged_in? && current_user.admin?
+        if logged_in? && impro_admin?(current_user)
           if objet.selected == 0
             @html += link_to "selectionner", select_path(:user_id => objet.user.id, :match_id => match_id, :class => objet_class)
           else

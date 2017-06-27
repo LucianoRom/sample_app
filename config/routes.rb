@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get '/about', to: 'static_pages#about'
   get '/login', to: 'session#new'
   get '/home', to: 'static_pages#home'
+  get '/login_impro', to: 'sessionimpros#new'
   post '/subscribe', to: 'matches#subscribe'
   post '/login', to: 'session#create'
   delete '/logout', to: 'session#destroy'

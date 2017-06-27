@@ -1,0 +1,20 @@
+<header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="container button-red">
+    <%= link_to image_tag("impro_logo.png", :border => 0), "http://www.improvisades.org" ,{class: 'button-red'} %>
+    <br><br><br>
+    <nav class="navbar-fixed-top">
+      <ul class="nav navbar-default navbar-right">
+        <% if logged_in? %>
+              <li class="nav-red">
+                <%= link_to "Deconnexion...", logout_path,{class: 'button-red', method: :delete} %>
+              </li>
+            </ul>
+          </li>
+        <% else %>
+          <li class="nav-red"><%= link_to "Nouvel utilisateur", signup_path ,{class: 'button-red'}%></li>
+          <li class="nav-red"><%= link_to "Connexion", login_impro_path ,{class: 'button-red'}%></li>
+        <% end %>
+      </ul>
+    </nav>
+  </div>
+</header>
