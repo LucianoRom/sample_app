@@ -82,11 +82,11 @@ class MatchesController < ApplicationController
   def subscribe
     #pour simplifier la gestion des paramètre : on supprime tout les liens du user et on les remet
     ##
-    Adversaire.where(:user_id => current_user.id).destroy_all
-    Musique.where(:user_id => current_user.id).destroy_all
-    Arbitre.where(:user_id => current_user.id).destroy_all
-    Mc.where(:user_id => current_user.id).destroy_all
-    Jury.where(:user_id => current_user.id).destroy_all
+    Adversaire.where(:user_id => current_user.id, :selected => 0).destroy_all
+    Musique.where(:user_id => current_user.id, :selected => 0).destroy_all
+    Arbitre.where(:user_id => current_user.id, :selected => 0).destroy_all
+    Mc.where(:user_id => current_user.id, :selected => 0).destroy_all
+    Jury.where(:user_id => current_user.id, :selected => 0).destroy_all
 
     #
     #

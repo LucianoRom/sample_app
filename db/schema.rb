@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170614120055) do
+ActiveRecord::Schema.define(version: 20170627083707) do
 
   create_table "adversaires", force: :cascade do |t|
     t.integer  "match_id"
@@ -145,6 +145,7 @@ ActiveRecord::Schema.define(version: 20170614120055) do
     t.integer  "orga"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "metro"
   end
 
   create_table "mcs", force: :cascade do |t|

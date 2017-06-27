@@ -1,83 +1,133 @@
 <p id="notice"><%= notice %></p>
-
-<h1>Matches</h1>
-<%= form_tag "/subscribe", method: "post" do %>
-  <table>
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Salle</th>
-        <th>Ville</th>
-        <th>Orga</th>
-        <th>Participant</th>
-        <th></th>
-        <th>Jury</th>
-        <th></th>
-        <th>Musicien</th>
-        <th></th>
-        <th>Arbitre</th>
-        <th></th>
-        <th>Maître de cérémonie</th>
-        <th></th>
-        <th colspan="3"></th>
-      </tr>
-    </thead>
-
-    <tbody>
-
-      <% @matches.each do |match| %>
-        <% if logged_in? %>
-          <% @adv = @jur = @mus = @arb = @mc = '' %>
-          <% @adv="checked" if Adversaire.find_by user_id: current_user.id, match_id: match.id %>
-          <% @jur="checked" if Jury.find_by user_id: current_user.id, match_id: match.id %>
-          <% @mus="checked" if Musique.find_by user_id: current_user.id, match_id: match.id %>
-          <% @arb="checked" if Arbitre.find_by user_id: current_user.id, match_id: match.id %>
-          <% @mc="checked" if Mc.find_by user_id: current_user.id, match_id: match.id %>
-        <% end %>
-        <tr>
-          <td><%= match.date %></td>
-          <td><%= match.salle %></td>
-          <td><%= match.ville %></td>
-          <td><%= match.organisateur.name %></td>
-          <td>
-            <%= selected_list("Adversaire", match.id) %>
-          </td>
-          <td>
+<div class="container-fluid">
+  <div class="row fire-text">
+    <h1>Calendrier 2017-2018</h1>
+  </div>
+  <div class="row">
+    <%= form_tag "/subscribe", method: "post" do %>
+      <table class="table table-responsive table-striped calendar">
+        <thead>
+          <tr>
+            <th colspan=4 class="match">MATCH</th>
+            <th colspan=6 class="part">PARTICIPANTS</th>
             <% if logged_in? %>
-              <input type="checkbox" name="adversaire_<%= match.id %>" <%= @adv%>/>
-            <% end %></td>
-          <td>
-            <%= selected_list("Jury", match.id) %>
-          </td>
-          <td><% if logged_in? %>
-            <input type="checkbox" name="jury_<%= match.id %>" <%= @jur %> />
-          <% end %></td>
-          <td>
-            <%= selected_list("Musique", match.id) %>
-          </td>
-          <td><% if logged_in? %>
-            <input type="checkbox" name="musique_<%= match.id %>" <%= @mus %>/>
-          <% end %></td>
-          <td>
-            <%= selected_list("Arbitre", match.id) %>
-          </td>
-          <td><% if logged_in? %>
-            <input type="checkbox" name="arbitre_<%= match.id %>" <%= @arb %>/>
-          <% end %></td>
-          <td>
-            <%= selected_list("Mc", match.id) %>
-          </td>
-          <td><% if logged_in? %>
-            <input type="checkbox" name="mc_<%= match.id %>" <%= @mc %>/> <% end %></td>
-        <% if logged_in? && (current_user.admin? || current_user == match.user) %>
-          <td><%= link_to 'Modifier', edit_match_path(match) %></td>
-          <td><%= link_to 'Supprimer', match, method: :delete, data: { confirm: 'Are you sure?' } %></td> <% end %>
-    </tr>
-  <% end %>
-    </tbody>
-  </table>
+              <th colspan=2>EDITER DATES</th>
+            <% end %>
+            <tr>
+              <th class="match">Date</th>
+              <th class="match">Salle</th>
+              <th class="match">Addresse</th>
+              <th class="match">Metro/RER</th>
+              <th class="part">Organisateur</th>
+              <th class="part">Invité</th>
+              <th class="part">Jury</th>
+              <th class="part">Musicien</th>
+              <th class="part">Arbitre</th>
+              <th class="part">Maître de cérémonie</th>
+              <% if logged_in? %>
+                <th colspan="2"></th>
+              <% end %>
+            </tr>
+        </thead>
 
-  <br>
-  <input type="submit" value="Enregistrer les inscriptions" />
-  <%= link_to 'Proposer une date', new_match_path %>
+        <tbody>
+
+          <% @matches.each do |match| %>
+            <% if logged_in? %>
+              <% @adv = @jur = @mus = @arb = @mc = '' %>
+              <% @adv="checked" if Adversaire.find_by user_id: current_user.id, match_id: match.id %>
+              <% @jur="checked" if Jury.find_by user_id: current_user.id, match_id: match.id %>
+              <% @mus="checked" if Musique.find_by user_id: current_user.id, match_id: match.id %>
+              <% @arb="checked" if Arbitre.find_by user_id: current_user.id, match_id: match.id %>
+              <% @mc="checked" if Mc.find_by user_id: current_user.id, match_id: match.id %>
+            <% end %>
+            <tr>
+              <td><%= match.date %></td>
+              <td><%= match.salle %></td>
+              <td><%= match.ville %></td>
+              <td><%= match.metro %></td>
+              <td><%= match.organisateur.name %></td>
+              <% if logged_in? && current_user.admin? %>
+                <%= selected_list("Adversaire", match.id) %>
+              <% end %>
+              <% if (logged_in? && !current_user.admin?) || !logged_in?  %>
+                <td>
+                  <% if logged_in? && !is_selected?("Adversaire",match.id) %>
+                    <input type="checkbox" name="adversaire_<%= match.id %>" <%= @adv%>/>
+                  <% else %>
+                    <%= selected_final("Adversaire",match.id)%>
+                  <% end %>
+                </td>
+
+              <% end %>
+              <% if logged_in? && current_user.admin? %>
+                <%= selected_list("Jury", match.id) %>
+              <% end %>
+              <% if (logged_in? && !current_user.admin?) || !logged_in?  %>
+                <td>
+                  <% if logged_in? && !is_selected?("Jury",match.id) %>
+                    <input type="checkbox" name="jury_<%= match.id %>" <%= @jur%>/>
+                  <% else %>
+                    <%= selected_final("Jury",match.id)%>
+                  <% end %>
+                </td>
+              <% end %>
+              <% if logged_in? && current_user.admin? %>
+                <%= selected_list("Musique", match.id) %>
+              <% end %>
+              <% if (logged_in? && !current_user.admin?) || !logged_in?  %>
+                <td>
+                  <% if logged_in? && !is_selected?("Musique",match.id) %>
+                    <input type="checkbox" name="musique_<%= match.id %>" <%= @mus%>/>
+                  <% else %>
+                    <%= selected_final("Musique",match.id)%>
+                  <% end %>
+                </td>
+              <% end %>
+              <% if logged_in? && current_user.admin? %>
+                <%= selected_list("Arbitre", match.id) %>
+              <% end %>
+              <% if (logged_in? && !current_user.admin?) || !logged_in?  %>
+                <td>
+                  <% if logged_in? && !is_selected?("Arbitre",match.id) %>
+                    <input type="checkbox" name="arbitre_<%= match.id %>" <%= @arb%>/>
+                  <% else %>
+                    <%= selected_final("Arbitre",match.id)%>
+                  <% end %>
+                </td>
+              <% end %>
+              <% if logged_in? && current_user.admin? %>
+                <%= selected_list("Mc", match.id) %>
+              <% end %>
+              <% if (logged_in? && !current_user.admin?) || !logged_in?  %>
+                <td>
+                  <% if logged_in? && !is_selected?("Mc",match.id) %>
+                    <input type="checkbox" name="mc_<%= match.id %>" <%= @mc%>/>
+                  <% else %>
+                    <%= selected_final("Mc",match.id)%>
+                  <% end %>
+                </td>
+              <% end %>
+              <% if logged_in? && (current_user.admin? || current_user == match.organisateur) %>
+                <td><%= link_to 'Modifier', edit_match_path(match) %></td><% end %>
+            <% if logged_in? && current_user.admin? %>
+              <td><%= link_to 'Supprimer', match, method: :delete, data: { confirm: 'Are you sure?' } %></td> <% end %>
+        </tr>
+      <% end %>
+        </tbody>
+      </table>
+  </div>
+  <% if !(logged_in? && !current_user.admin)
+       @visib_inscr = 'cache'
+  end
+%>
+  <div class= "row">
+    <div class="col-md-6">
+      <input type="submit" value="Enregistrer les inscriptions" class="btn button-red <%= @visib_inscr %>"     />
+    </div>
+    <div class="col-md-6"><% if logged_in? %>
+      <%= link_to 'Proposer une date', new_match_path, class: "btn button-red" %>
+    <% end %>
+    </div>
+  </div>
 <% end %>

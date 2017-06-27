@@ -99,9 +99,9 @@ footer {
 }
 
 .button-blue {
-    background-color: navy;
-    color: white;
-  }
+  background-color: navy;
+  color: white;
+}
 
 .col-md-3:hover  {
   .over-button{
@@ -329,3 +329,59 @@ span.picture {
   }
 }
 
+/*calendar*/
+
+.button-red {
+  background-color: FireBrick;
+  color: white;
+  width: 100%;
+
+  &:hover {
+    background-color: FireBrick;
+    text-decoration: none;
+    color: white;
+  }
+}
+
+a.button-red {
+  &:link{
+    color: white;
+  }
+  &:active{
+    color: white;
+  }
+  &:visited{
+    color:white;
+  }
+}
+
+.fire-text{
+  color: FireBrick;
+}
+
+table.calendar{
+     border: 1px solid lavender;
+  th {
+     border: 1px solid lavender;
+    background-color: PaleGreen;
+    text-align: center;
+  }
+  th.match{
+    background-color: Khaki;
+  }
+  th.part{
+    background-color: LightCyan;
+  }
+  td {
+    border: 1px solid lavender;
+
+  }
+
+  td.match{
+    background-color: Khaki;
+  }
+}
+
+.cache{
+   visibility: hidden;
+}
