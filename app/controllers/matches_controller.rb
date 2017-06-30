@@ -7,6 +7,10 @@ class MatchesController < ApplicationController
   # GET /matches.json
   def index
     @matches = Match.all.sort_by &:date
+    if logged_in?
+      @feed_items = current_user.tags("#improvisades").paginate(page: params[:page])
+      @micropost  = current_user.microposts.build
+    end
   end
 
   # GET /matches/1
@@ -30,7 +34,7 @@ class MatchesController < ApplicationController
 
     respond_to do |format|
       if @match.save
-        format.html { redirect_to matches_url, notice: 'Match was successfully created.' }
+        format.html { redirect_to matches_url, notice: 'Match créé avec succès' }
         format.json { render :index, status: :created, location: @match }
       else
         format.html { render :new }
@@ -44,7 +48,7 @@ class MatchesController < ApplicationController
   def update
     respond_to do |format|
       if @match.update(match_params)
-        format.html { redirect_to matches_url, notice: 'Match was successfully updated.' }
+        format.html { redirect_to matches_url, notice: 'Match modifié avec succès' }
         format.json { render :index, status: :ok, location: @match }
       else
         format.html { render :edit }
@@ -58,25 +62,25 @@ class MatchesController < ApplicationController
   def destroy
     @match.destroy
     respond_to do |format|
-      format.html { redirect_to matches_url, notice: 'Match was successfully destroyed.' }
+      format.html { redirect_to matches_url, notice: 'Match supprimé' }
       format.json { head :no_content }
     end
   end
 
   def select
-      # on récupère les paramètres de classe, user et match et on règle "selected"
-      @objet = params["class"].constantize.find_by(user_id: params["user_id"], match_id: params["match_id"])
-      @objet.selected = 1
-      @objet.save
-        redirect_to matches_url
+    # on récupère les paramètres de classe, user et match et on règle "selected"
+    @objet = params["class"].constantize.find_by(user_id: params["user_id"], match_id: params["match_id"])
+    @objet.selected = 1
+    @objet.save
+    redirect_to matches_url
   end
 
   def deselect
-      # on récupère les paramètres de classe, user et match et on règle "selected"
-      @objet = params["class"].constantize.find_by(user_id: params["user_id"], match_id: params["match_id"])
-      @objet.selected = 0
-      @objet.save
-        redirect_to matches_url
+    # on récupère les paramètres de classe, user et match et on règle "selected"
+    @objet = params["class"].constantize.find_by(user_id: params["user_id"], match_id: params["match_id"])
+    @objet.selected = 0
+    @objet.save
+    redirect_to matches_url
   end
 
   def subscribe

@@ -9,8 +9,15 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @microposts = @user.microposts.paginate(page: params[:page])
+  if params[:type_id].present?
+    @user.type_id = params[:type_id]
+    @user.save
+  end
+
+  @microposts = @user.microposts.paginate(page: params[:page])
     redirect_to "/home"  and return unless @user.activated?
+
+
   end
 
   def new
@@ -20,16 +27,22 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      @user.send_activation_email
-      flash[:info] = "Please check your email to activate your account."
       if URI(request.referer).path == '/signup_impro'
+        @user.send_activation_impro
+      else
+        @user.send_activation_email
+      end
+
+      if URI(request.referer).path == '/signup_impro'
+      flash[:info] = "Un lien d'activation a été envoyé par email."
         redirect_to matches_path
       else
+      flash[:info] = "Please check your email to activate your account."
         redirect_to "/home"
       end
     else
-      flash[:info] = "Erreur dans le formulaire"
       if URI(request.referer).path == '/signup_impro'
+      flash[:info] = "Erreur dans le formulaire"
         redirect_to signup_impro_path
       else
         render 'new'
@@ -43,14 +56,16 @@ class UsersController < ApplicationController
   def update
     if @user.update_attributes(user_params)
       # success
-      flash[:success] = "Profile updated"
       if URI(request.referer).path == '/profil_impro'
+      flash[:success] = "Profil mis à jour"
         redirect_to matches_path
       else
+      flash[:success] = "Profile updated"
         redirect_to @user
       end
     else
       if URI(request.referer).path == '/profil_impro'
+      flash[:danger] = "erreurs dans le formulaire"
         redirect_to profil_impro_path
       else
         render 'edit'

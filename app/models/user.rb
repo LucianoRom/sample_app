@@ -65,6 +65,10 @@ class User < ApplicationRecord
     UserMailer.account_activation(self).deliver_now
   end
 
+  def send_activation_impro
+    UserMailer.account_activation_impro(self).deliver_now
+  end
+
   # Sets the password reset attributes.
   def create_reset_digest
     self.reset_token = User.new_token
@@ -76,6 +80,10 @@ class User < ApplicationRecord
     UserMailer.password_reset(self).deliver_now
   end
 
+  # Sends password reset email for improvisades
+  def send_password_reset_impro
+    UserMailer.password_reset_impro(self).deliver_now
+  end
   # Returns true if a password reset has expired.
   def password_reset_expired?
     reset_sent_at < 2.hours.ago
@@ -85,9 +93,13 @@ class User < ApplicationRecord
     following_ids = "SELECT followed_id FROM relationships
                              WHERE  follower_id = :user_id"
     Micropost.where("user_id IN (#{following_ids})
-                                                                      OR user_id = :user_id", user_id: id)
+                     OR user_id = :user_id", user_id: id)
   end
 
+  def tags(tag)
+    #a terme, gerer les tags dans une table dédiée? avec une liste de tag qui dépend de l'utilisateur? (coté micropost, garder comme recherche, mais stoquer dans une table les tags associés à un utilisateur
+Micropost.where("content LIKE '%#{tag}%'")
+  end
   # Follows a user.
   def follow(other_user)
     following << other_user

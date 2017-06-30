@@ -13,7 +13,14 @@
   </aside>
   <div class="col-md-8">
     <b>User Type : </b> <%= @user.type.name %>
-    <%= render 'follow_form' if logged_in? %>
+  <% if logged_in? && current_user.admin? %>
+    <%= form_tag(user_path(@user), method: "get") do %>
+      <%= label_tag(:type_id, "Changer pour:") %>
+      <%= select_tag :type_id, options_from_collection_for_select(Type.all, :id, :name,  {:selected => @user.type_id}) %>
+          <%= submit_tag("Changer") %>
+        <% end %>
+  <% end%>
+  <%= render 'follow_form' if logged_in? %>
     <% if @user.microposts.any? %>
       <h3>Microposts (<%= @user.microposts.count %>)</h3>
       <ol class="microposts">

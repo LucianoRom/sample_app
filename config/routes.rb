@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   get '/deselect', to: 'matches#deselect'
   get 'password_resets/new'
   get 'password_resets/edit'
+  get '/impro_password', to: 'sessionimpros#pass_perdu'
+  get '/impro_passreset', to: 'sessionimpros#pass_reset'
   get '/signup', to: 'users#new'
   get '/signup_impro', to: 'sessionimpros#newuser'
 get '/profil_impro', to: 'sessionimpros#edituser'

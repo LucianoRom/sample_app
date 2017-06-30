@@ -10,29 +10,58 @@ class PasswordResetsController < ApplicationController
     @user = User.find_by(email: params[:password_reset][:email].downcase)
     if @user
       @user.create_reset_digest
-      @user.send_password_reset_email
-      flash[:info] = "Email sent with password reset instructions"
-      redirect_to root_url
+      if URI(request.referer).path == '/impro_password'
+        @user.send_password_reset_impro
+      else
+        @user.send_password_reset_email
+      end
+      if URI(request.referer).path == '/impro_password'
+        flash[:info] = "Email envoyé"
+        redirect_to matches_path
+      else
+        flash[:info] = "Email sent with password reset instructions"
+        redirect_to root_url
+      end
     else
-      flash.now[:danger] = "Email address not found"
-      render 'new'
+      if URI(request.referer).path == '/impro_password'
+        flash.now[:danger] = "Email non trouvé"
+        redirect_to impro_password_path
+      else
+        flash.now[:danger] = "Email address not found"
+        render 'new'
+      end
     end
   end
 
   def edit
+    if params[:type]=='impro'
+      redirect_to impro_passreset_path(id: params[:id], email: params[:email])
+    end
   end
 
   def update
     if params[:user][:password].empty?                  # Case (3)
       @user.errors.add(:password, "can't be empty")
-      render 'edit'
+      if (URI(request.referer).path.include? 'impro')
+        redirect_to impro_passreset_path(id: params[:id], email: params[:email])
+      else
+        render 'edit'
+      end
     elsif @user.update_attributes(user_params)          # Case (4)
       log_in @user
       @user.update_attribute(:reset_digest, nil)
       flash[:success] = "Password has been reset."
-      redirect_to @user
+      if (URI(request.referer).path.include? 'impro')
+        redirect_to matches_path
+      else
+        redirect_to @user
+      end
     else
-      render 'edit'                                     # Case (2)
+      if (URI(request.referer).path.include? 'impro')
+        redirect_to impro_passreset_path(id: params[:id], email: params[:email])
+      else
+        render 'edit'
+      end
     end
   end
 

@@ -4,19 +4,35 @@ class MicropostsController < ApplicationController
 
   def create
     @micropost = current_user.microposts.build(micropost_params)
+    if (URI(request.referer).path.include? 'match' )
+      @micropost.content = "#improvisades "+@micropost.content
+    end
     if @micropost.save
-      flash[:success] = "Micropost created!"
-      redirect_to '/home'
+      if (URI(request.referer).path.include? 'match' )
+        redirect_to matches_path(anchor: 'comments')
+      else
+        flash[:success] = "Micropost created!"
+        redirect_to '/home'
+      end
     else
       @feed_items = []
-      render 'static_pages/home'
+      if (URI(request.referer).path.include? 'match' )
+        redirect_to '/home'
+      else
+        render 'static_pages/home'
+      end
     end
   end
 
   def destroy
     @micropost.destroy
-    flash[:success] = "Micropost deleted"
-    redirect_back(fallback_location: '/home')
+    if (URI(request.referer).path.include? 'match' )
+      flash[:success] = "Commentaire supprimé"
+      redirect_back(fallback_location: '/matches')
+    else
+      flash[:success] = "Micropost deleted"
+      redirect_back(fallback_location: '/home')
+    end
   end
 
   private

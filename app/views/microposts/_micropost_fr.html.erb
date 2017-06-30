@@ -1,0 +1,13 @@
+<li id="micropost-<%= micropost_fr.id %>">
+  <span class="user"><%= link_to micropost_fr.user.name, micropost_fr.user %></span>
+  <span class="content"><%= micropost_fr.content.sub! '#improvisades ','' %>
+      <%= image_tag micropost_fr.picture.url if micropost_fr.picture? %>
+  </span>
+  <span class="timestamp">
+    <%= timeago_fr(micropost_fr.created_at) %>
+    <% if current_user?(micropost_fr.user) %>
+      <%= link_to "supprimer", micropost_fr, method: :delete,
+        data: { confirm: "Vous êtes sûrs?" } %>
+    <% end %>
+  </span>
+</li>

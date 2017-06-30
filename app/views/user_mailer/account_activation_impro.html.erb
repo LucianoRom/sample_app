@@ -1,0 +1,9 @@
+
+<p>Bonjour <%= @user.name %>,</p>
+
+<p>
+Bienvenue sur le calendrier des improvisades. Votre lien d'activation est le suivant
+</p>
+
+<%= link_to "Activate", edit_account_activation_url(@user.activation_token,
+                                                    email: @user.email, type: 'impro') %>
