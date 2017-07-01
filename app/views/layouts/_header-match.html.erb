@@ -1,8 +1,9 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="container button-red">
     <% #  link_to image_tag("impro_logo.png", :border => 0), "http://www.improvisades.org" ,{class: 'button-red'} %>
-    <%= link_to image_tag("impro_logo.png", :border => 0), matches_path ,{class: 'button-red'} %>
-    <br><br>
+    <br><center>
+    <%= link_to image_tag("impro_logo.png", :border => 0 ,:class => "img-responsive img-circle" ), matches_path ,{class: 'button-red'} %>
+    <br></center>
     <nav class="navbar-fixed-top">
       <ul class="nav navbar-default navbar-right">
         <% if logged_in? %>
