@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170627183333) do
+ActiveRecord::Schema.define(version: 20171114174345) do
 
   create_table "adversaires", force: :cascade do |t|
     t.integer  "match_id"
@@ -71,8 +71,6 @@ ActiveRecord::Schema.define(version: 20170627183333) do
     t.integer  "user_id"
     t.index ["complexite_id"], name: "index_games_on_complexite_id"
     t.index ["duree_id"], name: "index_games_on_duree_id"
-    t.index ["name", "user_id"], name: "index_games_on_name_and_user_id"
-    t.index ["name"], name: "index_games_on_name"
     t.index ["user_id"], name: "index_games_on_user_id"
   end
 
@@ -96,11 +94,11 @@ ActiveRecord::Schema.define(version: 20170627183333) do
 
   create_table "jeu_nbjoueurs", force: :cascade do |t|
     t.integer  "game_id"
-    t.integer  "nbjoueur_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "nb_joueur_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.index ["game_id"], name: "index_jeu_nbjoueurs_on_game_id"
-    t.index ["nbjoueur_id"], name: "index_jeu_nbjoueurs_on_nbjoueur_id"
+    t.index ["nb_joueur_id"], name: "index_jeu_nbjoueurs_on_nb_joueur_id"
   end
 
   create_table "jeu_styles", force: :cascade do |t|
@@ -146,6 +144,7 @@ ActiveRecord::Schema.define(version: 20170627183333) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "metro"
+    t.string   "comment"
   end
 
   create_table "mcs", force: :cascade do |t|

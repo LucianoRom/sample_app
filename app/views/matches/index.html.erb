@@ -1,13 +1,13 @@
 <div class="container-fluid">
   <div class="row fire-text">
-    <h1>Calendrier 2017-2018</h1>
+    <h1>Calendrier Improvisades</h1>
   </div>
   <div class="row">
     <%= form_tag "/subscribe", method: "post" do %>
       <table class="table table-responsive table-striped calendar">
         <thead>
           <tr>
-            <th colspan=5 class="match">MATCH</th>
+            <th colspan=6 class="match">MATCH</th>
             <th colspan=7 class="part">PARTICIPANTS</th>
             <% if logged_in? %>
               <th colspan=2>EDITER DATES</th>
@@ -16,8 +16,9 @@
               <th class="match">Mois</th>
               <th class="match">Date</th>
               <th class="match">Salle</th>
-              <th class="match">Addresse</th>
-              <th class="match">Metro/RER</th>
+              <th class="match">Détails</th>
+              <th class="match">Adresse</th>
+              <th class="match">Transports</th>
               <th class="part">Organisateur</th>
               <th class="part">Invité</th>
               <th class="part">Jury</th>
@@ -47,6 +48,7 @@
               <td><b><%= mois(match.date) %></b></td>
               <td><%= jour(match.date) %></td>
               <td><%= match.salle %></td>
+              <td><%= match.comment %></td>
               <td><%= match.ville %></td>
               <td><%= match.metro %></td>
               <td><%= match.organisateur.name %></td>
@@ -140,7 +142,7 @@
     <div class="col-md-6">
       <input type="submit" value="Enregistrer les inscriptions" class="btn button-red <%= @visib_inscr %>"     />
     </div>
-    <div class="col-md-6"><% if logged_in? %>
+    <div class="col-md-6"><% if logged_in? && impro_admin?(current_user)%>
       <%= link_to 'Proposer une date', new_match_path, class: "btn button-red" %>
     <% end %>
     </div>

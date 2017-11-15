@@ -26,7 +26,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    if @user.save
+    if @user.save!
       if URI(request.referer).path == '/signup_impro'
         @user.send_activation_impro
       else

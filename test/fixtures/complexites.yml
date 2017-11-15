@@ -1,7 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  nm_complexite: MyString
+  name: anme
 
 two:
-  nm_complexite: MyString
+  name:  MyString

@@ -1,8 +1,8 @@
 class MatchesController < ApplicationController
   before_action :set_match, only: [:show, :edit, :update, :destroy]
   before_action :logged_in_user, only: [:edit, :update, :new, :create, :destroy, :subscribe]
-  before_action :correct_user_or_admin_impro, only: [:edit, :update, :destroy]
-
+  before_action :correct_user_or_admin_impro, only: [ :edit, :update, :destroy]
+before_action :admin_impro, only: [:create]
   # GET /matches
   # GET /matches.json
   def index
@@ -118,7 +118,7 @@ class MatchesController < ApplicationController
         @newrecord.save
       end
     end
-    redirect_to matches_url, notice: 'Inscriptions enregistrées'
+    redirect_to matches_url, notice: 'Inscriptions envoyée aux improvisades. Vous recevrez un mail de confirmation de la part des Improvisades'
   end
 
   private
@@ -129,11 +129,14 @@ class MatchesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def match_params
-    params.require(:match).permit(:date, :salle, :ville, :orga, :metro)
+    params.require(:match).permit(:date, :salle, :ville, :orga, :metro, :comment)
   end
   def correct_user_or_admin_impro
     @match = Match.find(params[:id])
     @user = @match.organisateur
     redirect_to('/matchs') unless current_user?(@user)||impro_admin?(current_user)
+  end
+  def admin_impro
+    redirect_to('/matchs') unless impro_admin?(current_user)
   end
 end

@@ -17,17 +17,23 @@
     <%= f.label :salle %>
     <%= f.text_field :salle, class: 'form-control' %>
 
-    <%= f.label :ville, "Addresse" %>
+    <%= f.label :ville, "Adresse" %>
     <%= f.text_field :ville , class: 'form-control'%>
 
-    <%= f.label :metro, "Metro/RER" %>
+    <%= f.label :metro, "Transports (Métro/RER/Bus)" %>
     <%= f.text_field :metro , class: 'form-control'%>
 
 
     <%= f.label :date %>
     <%= f.text_field :date, :value => yield(:formate), 'data-behaviour' => 'datepicker' , class: 'form-control'%>
+    <% if impro_admin?(current_user) %>
+    <%= f.label :orga, "Organisateur" %>
+    <%= f.collection_select :orga, User.all, :id, :name  %>
+    <%= f.label :comment, "Commentaire" %>
+    <%= f.text_field :comment, class: 'form-control' %>
 
-    <%= f.hidden_field :orga, value: current_user.id %>
+
+  <% end %>
     <%= f.submit yield(:button_text), class: "btn button-red" %>
 
 <% end %>
