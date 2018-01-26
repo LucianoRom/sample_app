@@ -70,7 +70,7 @@
               <% end %>
               <% if (logged_in? && !impro_admin?(current_user)) || !logged_in?  %>
                 <td>
-                  <% if logged_in? && !is_selected?("Jury",match.id) %>
+                  <% if logged_in?  %>
                     <input type="checkbox" name="jury_<%= match.id %>" <%= @jur%>/>
                   <% else %>
                     <%= selected_final("Jury",match.id)%>
@@ -82,7 +82,7 @@
               <% end %>
               <% if (logged_in? && !impro_admin?(current_user)) || !logged_in?  %>
                 <td>
-                  <% if logged_in? && !is_selected?("Musique",match.id) && current_user.type_id == 4  %>
+                  <% if logged_in? && current_user.type_id == 4  %>
                     <input type="checkbox" name="musique_<%= match.id %>" <%= @mus%>/>
                   <% else %>
                     <%= selected_final("Musique",match.id)%>
@@ -94,7 +94,7 @@
               <% end %>
               <% if (logged_in? && !impro_admin?(current_user)) || !logged_in?  %>
                 <td>
-                  <% if logged_in? && !is_selected?("Arbitre",match.id)  && current_user.type_id == 4 %>
+                  <% if logged_in? && current_user.type_id == 4 %>
                     <input type="checkbox" name="arbitre_<%= match.id %>" <%= @arb%>/>
                   <% else %>
                     <%= selected_final("Arbitre",match.id)%>
@@ -106,7 +106,7 @@
               <% end %>
               <% if (logged_in? && !impro_admin?(current_user)) || !logged_in?  %>
                 <td>
-                  <% if logged_in? && !is_selected?("Mc",match.id)  && current_user.type_id == 4 %>
+                  <% if logged_in? && current_user.type_id == 4 %>
                     <input type="checkbox" name="mc_<%= match.id %>" <%= @mc%>/>
                   <% else %>
                     <%= selected_final("Mc",match.id)%>
@@ -118,7 +118,7 @@
               <% end %>
               <% if (logged_in? && !impro_admin?(current_user)) || !logged_in?  %>
                 <td>
-                  <% if logged_in? && !is_selected?("Representant",match.id)  && current_user.type_id == 4 %>
+                  <% if logged_in? && current_user.type_id == 4 %>
                     <input type="checkbox" name="representant_<%= match.id %>" <%= @rep%>/>
                   <% else %>
                     <%= selected_final("Representant",match.id)%>
